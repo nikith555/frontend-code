@@ -6,17 +6,18 @@ import { FaUser } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
 import { IoMdLock } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SignUp = () => {
-  const [fullName, setFullName] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [termsChecked, setTermsChecked] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(true);
 
-  const handleFullNameChange = (e) => {
-    setFullName(e.target.value);
+  const handleNameChange = (e) => {
+    setName(e.target.value);
   };
 
   const handleEmailChange = (e) => {
@@ -43,10 +44,25 @@ const SignUp = () => {
   //   }
   // }
 
-  const signUpUser = (event) => {
+  const signUpUser = async (event) => {
     event.preventDefault();
+    try {
+      await axios.post("http://localhost:8080/api/adduser", {
+      name: name,
+      email: email,
+      password: password,
+      });
+      alert("Employee Registation Successfully");
+    } catch (err) {
+      alert(err);
+    }
+   
+
+
+
+
     if (
-      fullName !== "" &&
+      name !== "" &&
       email !== "" &&
       password !== "" &&
       confirmPassword !== "" &&
@@ -79,11 +95,11 @@ const SignUp = () => {
                 <input
                   required
                   type="text"
-                  id="fullName"
-                  placeholder="Full Name"
+                  id="Name"
+                  placeholder=" Name"
                   className="input-box"
-                  value={fullName}
-                  onChange={handleFullNameChange}
+                  value={name}
+                  onChange={handleNameChange}
                 />
               </div>
             </div>
@@ -153,7 +169,7 @@ const SignUp = () => {
               </p>
             </div>
             <div className="button">
-              <button className="singup-button" type="submit">
+              <button  className="singup-button" type="submit" onClick={signUpUser}>
                 Sign Up
               </button>
             </div>
